@@ -26,6 +26,7 @@ Controller class to manage the Api Calls
 @RequestMapping("/employee")
 public class EmployeeController {
 
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -54,13 +55,13 @@ public class EmployeeController {
         return employeeService.get(id);
     }
 
-
+    //To delete the data by ID
     @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable Integer id) {
 
         return employeeService.delete(id);
     }
-
+    //To update the data by ID
     @PutMapping("/{id}")
     public Response update(@RequestBody Employeedto employeedto, @PathVariable Integer id) {
         employeeService.updateEmployee(employeedto, id);
