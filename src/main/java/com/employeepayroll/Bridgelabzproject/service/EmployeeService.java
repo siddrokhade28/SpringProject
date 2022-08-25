@@ -16,7 +16,7 @@ public interface EmployeeService {
 
     public Employee get(Integer id);
 
-    public void delete(Integer id);
+    public Response delete(Integer id);
 
-    Employee updateEmployee(Employeedto employeedto, Integer id);
+    Response updateEmployee(Employeedto employeedto, Integer id);
 }

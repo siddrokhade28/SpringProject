@@ -49,21 +49,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public Response delete(Integer id) {
         employeeRepo.deleteById(id);
+        return new Response("the Employee data is been deleted",HttpStatus.OK);
     }
 
     @Override
-    public Employee updateEmployee(Employeedto employeedto, Integer id) {
+    public Response updateEmployee(Employeedto employeedto, Integer id) {
         Employee oldData = null;
-        Optional<Employee> optional = Optional.ofNullable(employeeRepo.findById(id).orElseThrow(() -> new ExceptionMessage("User with ID" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
+        employeeRepo.findByEmail(employeedto.getEmail()).ifPresent(employee -> {
+            throw new ExceptionMessage("Employee Payroll Email is Already Present ");
+        });
+        Optional<Employee> optional = Optional.ofNullable(employeeRepo.findById(id).orElseThrow(() -> new ExceptionMessage("User with ID" + id + " Cannot Be Updated Because It's not Present in the Employee List")));
         if (optional.isPresent())
             oldData = optional.get();
         oldData.setName(employeedto.getName());
         oldData.setPhoneNumber(employeedto.getPhoneNumber());
         oldData.setEmail(employeedto.getEmail());
         oldData.setSalary(employeedto.getSalary());
-        return employeeRepo.save(oldData);
+         employeeRepo.save(oldData);
+         return new Response("Employee of id"+id+" updated",HttpStatus.OK);
 
     }
 }
